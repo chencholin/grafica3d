@@ -5,7 +5,7 @@ const height = 500
 const margin = {
     top: 0,
     bottom: 30,
-    left:0, 
+    left:60, 
     right: 10
 }
 
@@ -14,13 +14,13 @@ const margin = {
 const svg = d3.select(".container").append("svg").attr("width", width).attr("height", height)
 const elementGroup= svg.append("g").attr("id","elementGroup")
 const axisGroup=svg.append("g").attr("id","axisGroup")
-const xAxisGroup=axisGroup.append("g").attr("id", "xAxisGroup").attr("transform",`translate(${margin.left}, ${height-margin.bottom})`)
-const yAxisGroup=axisGroup.append("g").attr("id", "yAxisGroup").attr("transform",`translate(${margin.left}, ${margin.top})`)
+const xAxisGroup=axisGroup.append("g").attr("id", "xAxisGroup").attr("transform",`translate(0, ${height-margin.bottom})`)
+const yAxisGroup=axisGroup.append("g").attr("id", "yAxisGroup").attr("transform",`translate(0, ${margin.top})`)
 
 // ASIGNACION DE SCALAS
 
 
-let x = d3.scaleLinear().range([0,width-margin.left-margin.right]); 
+let x = d3.scaleLinear().range([20,width-margin.left-margin.right]); 
 let y = d3.scaleBand().range([height-margin.top-margin.bottom, 0]).padding(0.1)
 
 
@@ -60,7 +60,7 @@ y.domain(d3.keys(data2))
 
 
 
-elementGroup.selectAll("rect").data()
+elementGroup.selectAll("rect").data(d3.entries(data2))
         
 .join("rect")
         .attr("class", d => d.key)
@@ -69,6 +69,12 @@ elementGroup.selectAll("rect").data()
         .attr("width", d => x(d.value))
         .attr("height", y.bandwidth())
         .attr("fill", "#8A2BE2")
+
+title = svg.append("text")
+        .attr("transform", `translate(${(600+ margin.left + margin.right)/2},20)`)
+        .style("text-anchor", "middle")
+        .style("font-weight", 700)
+        .text("Mundiales ganados por paises");
 
 
 
