@@ -26,7 +26,7 @@ let y = d3.scaleBand().range([height-margin.top-margin.bottom, 0]).padding(0.1)
 
 //Definicion de ejes
 
-const xAxis=d3.axisBottom().scale(x)
+const xAxis=d3.axisBottom().scale(x).ticks(5)
 const yAxis=d3.axisRight().scale(y)
 
 
@@ -34,12 +34,17 @@ const yAxis=d3.axisRight().scale(y)
 
 
 let data2;
-let data3;
+
 d3.csv("data.csv").then(data => {
+    
+    
+
     data.map(d => {
         d.titles = +d.titles
     })
+
     
+
 
 
 
@@ -48,7 +53,11 @@ function tratamiento(){
     resultado={} 
     data.map(d => (resultado[d.country] = resultado[d.country] + 1 || 1))
     return resultado}
-data2=tratamiento()
+
+
+    data2=tratamiento()
+
+
 
 
 
@@ -65,10 +74,11 @@ elementGroup.selectAll("rect").data(d3.entries(data2))
 .join("rect")
         .attr("class", d => d.key)
         .attr("x", 0)        
-        .attr("y", (d,i) => y(d.key))
+        .attr("y", (d,i,a) => y(d.key))
         .attr("width", d => x(d.value))
         .attr("height", y.bandwidth())
-        .attr("fill", "#8A2BE2")
+        .style("fill", function(d) { if(d.value>4){return "#FF0000"}  if (d.value==4 ){return "#FA794F"} if (d.value==2 ){return "#F9A78D"} else {return "#DDBBB0"}})
+        //.select("rect","class", function (d) {"fill"{ if(d.titles=){return "#FF0000"}})
 
 title = svg.append("text")
         .attr("transform", `translate(${(600+ margin.left + margin.right)/2},20)`)
