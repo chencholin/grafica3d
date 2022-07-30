@@ -34,7 +34,7 @@ const yAxis=d3.axisRight().scale(y)
 
 
 let data2;
-
+let data3;
 d3.csv("data.csv").then(data => {
     data.map(d => {
         d.titles = +d.titles
@@ -48,9 +48,10 @@ function tratamiento(){
     resultado={} 
     data.map(d => (resultado[d.country] = resultado[d.country] + 1 || 1))
     return resultado}
+data2=tratamiento()
 
-    data2=tratamiento()
-    
+
+
  
 //dominos
     
@@ -59,13 +60,13 @@ y.domain(d3.keys(data2))
 
 
 
-elementGroup.selectAll("rect").data(data)
+elementGroup.selectAll("rect").data()
         
 .join("rect")
-        .attr("class", d => d.country)
+        .attr("class", d => d.key)
         .attr("x", 0)        
-        .attr("y", (d,i) => y(d.country))
-        .attr("width", d => x(d.titles))
+        .attr("y", (d,i) => y(d.key))
+        .attr("width", d => x(d.value))
         .attr("height", y.bandwidth())
         .attr("fill", "#8A2BE2")
 
